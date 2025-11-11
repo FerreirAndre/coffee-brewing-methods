@@ -28,6 +28,6 @@ public class CoffeeMethod {
     @OneToOne(cascade = CascadeType.ALL)
     private CoffeeDescription coffeeDescription;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coffeeMethod")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coffeeMethod", orphanRemoval = true)
     private List<PourStep> steps;
 }
