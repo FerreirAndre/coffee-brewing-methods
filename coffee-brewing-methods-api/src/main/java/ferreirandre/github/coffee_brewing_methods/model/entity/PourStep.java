@@ -23,5 +23,6 @@ public class PourStep {
     private String instructions;
 
     @ManyToOne
+    @JoinColumn(name = "coffee_method_id")
     private CoffeeMethod coffeeMethod;
 }
