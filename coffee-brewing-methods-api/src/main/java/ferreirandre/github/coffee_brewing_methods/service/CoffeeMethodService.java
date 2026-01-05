@@ -1,9 +1,15 @@
 package ferreirandre.github.coffee_brewing_methods.service;
 
 
+import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodDetailsDto;
+import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodDto;
+
+import java.util.List;
+
 public interface CoffeeMethodService {
     List<CoffeeMethodDto> findAllCoffeeMethod();
-    CoffeeMethodDto findCoffeeMethodByName(String coffeeMethodName);
+    List<CoffeeMethodDto> findAllCoffeeMethodByName(String coffeeMethodName);
+    CoffeeMethodDetailsDto findCoffeeMethodById(Long id);
     void deleteCoffeeMethod(Long id);
-    CoffeeMethodDto updateCoffeeMethod(Long id, CoffeeMethodDto coffeeMethodDto);
+    void updateCoffeeMethod(Long id, CoffeeMethodDto coffeeMethodDto);
 }

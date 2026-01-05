@@ -21,6 +21,9 @@ public class CoffeeMethod {
     @Column(name = "method_name")
     private String name;
 
+    @Column(name = "method_type")
+    private String type;
+
     private int waterTemperature;
 
     private String description;
