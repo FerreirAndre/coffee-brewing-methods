@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CoffeeMethodRepository extends JpaRepository<CoffeeMethod, Long> {
-    List<CoffeeMethod> findByName(String name);
+    List<CoffeeMethod> findByType(String name);
 }
