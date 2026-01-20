@@ -7,16 +7,20 @@ import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodSaveDto;
 import ferreirandre.github.coffee_brewing_methods.model.entity.CoffeeMethod;
 import ferreirandre.github.coffee_brewing_methods.repository.CoffeeMethodRepository;
 import ferreirandre.github.coffee_brewing_methods.service.CoffeeMethodService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CoffeeMethodServiceImpl implements CoffeeMethodService {
 
     @Autowired
     private CoffeeMethodRepository repository;
+
     private CoffeeMethodMapper mapper;
 
     @Override
