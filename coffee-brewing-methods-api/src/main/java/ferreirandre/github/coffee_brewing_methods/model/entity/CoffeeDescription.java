@@ -3,16 +3,14 @@ package ferreirandre.github.coffee_brewing_methods.model.entity;
 import ferreirandre.github.coffee_brewing_methods.model.enums.GrindSize;
 import ferreirandre.github.coffee_brewing_methods.model.enums.RoastLevel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Builder
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
+@Builder
+@Entity@Table(name = "coffee_description")
 public class CoffeeDescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

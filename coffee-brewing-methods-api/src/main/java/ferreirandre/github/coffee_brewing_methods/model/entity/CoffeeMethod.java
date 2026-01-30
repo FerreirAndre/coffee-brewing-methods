@@ -1,18 +1,17 @@
 package ferreirandre.github.coffee_brewing_methods.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Data
-@Entity
+@AllArgsConstructor
+@Builder
+@Entity@Table(name = "coffee_method")
 public class CoffeeMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +27,10 @@ public class CoffeeMethod {
 
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private CoffeeDescription coffeeDescription;
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "coffee_description_id")
+    private CoffeeDescription coffeeDescription = null;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coffeeMethod", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coffeeMethod", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<PourStep> steps;
 }

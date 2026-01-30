@@ -12,5 +12,4 @@ public class CoffeeMethodDto {
     private String type;
     private int waterTemperature;
     private String description;
-
 }

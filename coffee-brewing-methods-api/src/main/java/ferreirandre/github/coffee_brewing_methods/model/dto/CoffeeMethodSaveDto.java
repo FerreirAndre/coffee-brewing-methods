@@ -3,6 +3,7 @@ package ferreirandre.github.coffee_brewing_methods.model.dto;
 import ferreirandre.github.coffee_brewing_methods.model.entity.CoffeeDescription;
 import ferreirandre.github.coffee_brewing_methods.model.entity.PourStep;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoffeeMethodSaveDto {
@@ -11,5 +12,5 @@ public class CoffeeMethodSaveDto {
     private int waterTemperature;
     private String description;
     private CoffeeDescriptionDto coffeeDescription;
-    private List<PourStepDto> steps;
+    private List<PourStepDto> steps = new ArrayList<>();
 }

@@ -1,7 +1,6 @@
 package ferreirandre.github.coffee_brewing_methods.Controller;
 
 import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodDto;
-import ferreirandre.github.coffee_brewing_methods.model.entity.CoffeeMethod;
 import ferreirandre.github.coffee_brewing_methods.service.CoffeeMethodService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

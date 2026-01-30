@@ -1,5 +1,10 @@
 package ferreirandre.github.coffee_brewing_methods.model.enums;
 
 public enum GrindSize {
-    EXTRAFINE, FINE, MEDIUMFINE, MEDIUM, COARSE, EXTRACOARSE;
+    EXTRA_FINE,
+    FINE,
+    MEDIUM_FINE,
+    MEDIUM,
+    MEDIUM_COARSE,
+    COARSE
 }

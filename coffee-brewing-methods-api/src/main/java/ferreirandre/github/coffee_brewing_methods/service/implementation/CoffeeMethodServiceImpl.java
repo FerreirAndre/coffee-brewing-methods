@@ -21,12 +21,15 @@ public class CoffeeMethodServiceImpl implements CoffeeMethodService {
     @Autowired
     private CoffeeMethodRepository repository;
 
-    private CoffeeMethodMapper mapper;
+    private final CoffeeMethodMapper mapper;
 
     @Override
     public List<CoffeeMethodDto> findAllCoffeeMethod() {
         List<CoffeeMethod> coffeeMethods = repository.findAll();
+        System.out.println(repository.count());
+        System.out.println(coffeeMethods);
         List<CoffeeMethodDto> coffeeMethodDtos = coffeeMethods.stream().map(mapper::toDto).toList();
+        System.out.println(coffeeMethodDtos);
         return coffeeMethodDtos;
     }
 
