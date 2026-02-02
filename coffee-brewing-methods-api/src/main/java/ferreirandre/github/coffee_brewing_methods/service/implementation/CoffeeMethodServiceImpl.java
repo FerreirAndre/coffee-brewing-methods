@@ -7,6 +7,7 @@ import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodSaveDto;
 import ferreirandre.github.coffee_brewing_methods.model.entity.CoffeeMethod;
 import ferreirandre.github.coffee_brewing_methods.repository.CoffeeMethodRepository;
 import ferreirandre.github.coffee_brewing_methods.service.CoffeeMethodService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CoffeeMethodServiceImpl implements CoffeeMethodService {
 
     @Autowired
@@ -26,10 +28,7 @@ public class CoffeeMethodServiceImpl implements CoffeeMethodService {
     @Override
     public List<CoffeeMethodDto> findAllCoffeeMethod() {
         List<CoffeeMethod> coffeeMethods = repository.findAll();
-        System.out.println(repository.count());
-        System.out.println(coffeeMethods);
         List<CoffeeMethodDto> coffeeMethodDtos = coffeeMethods.stream().map(mapper::toDto).toList();
-        System.out.println(coffeeMethodDtos);
         return coffeeMethodDtos;
     }
 
