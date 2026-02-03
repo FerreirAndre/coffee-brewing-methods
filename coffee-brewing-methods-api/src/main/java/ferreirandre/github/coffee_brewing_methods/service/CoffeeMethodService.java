@@ -8,10 +8,10 @@ import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodSaveDto;
 import java.util.List;
 
 public interface CoffeeMethodService {
-    List<CoffeeMethodDto> findAllCoffeeMethod();
-    List<CoffeeMethodDto> findAllCoffeeMethodByType(String type);
-    CoffeeMethodDetailsDto findCoffeeMethodById(Long id);
-    String saveCoffeeMethod(CoffeeMethodSaveDto dto);
-    void deleteCoffeeMethod(Long id);
-    void updateCoffeeMethod(Long id, CoffeeMethodDto dto);
+    List<CoffeeMethodDto> findAll();
+    List<CoffeeMethodDto> findAllByType(String type);
+    CoffeeMethodDetailsDto findById(Long id);
+    String create(CoffeeMethodSaveDto dto);
+    Long delete(Long id);
+    Long update(Long id, CoffeeMethodSaveDto dto);
 }

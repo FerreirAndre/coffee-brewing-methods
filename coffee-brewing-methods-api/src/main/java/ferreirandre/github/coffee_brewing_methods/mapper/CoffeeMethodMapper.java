@@ -6,7 +6,9 @@ import ferreirandre.github.coffee_brewing_methods.model.entity.CoffeeMethod;
 import ferreirandre.github.coffee_brewing_methods.model.entity.PourStep;
 import org.mapstruct.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface CoffeeMethodMapper {
@@ -23,9 +25,21 @@ public interface CoffeeMethodMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "steps", ignore = true)
-    @Mapping(target = "coffeeDescription", ignore = true)
-    void updateEntityFromDto(CoffeeMethodDto dto, @MappingTarget CoffeeMethod entity);
+    void updateEntityFromDto(CoffeeMethodSaveDto dto, @MappingTarget CoffeeMethod entity);
+
+    @Named("mapStepsToEntity")
+    default List<PourStep> mapStepsToEntity(List<PourStepDto> stepDtos) {
+        if(stepDtos==null||stepDtos.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return stepDtos.stream()
+                .map(this::stepDtoToEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "coffeeMethod", ignore = true)
+    PourStep stepDtoToEntity(PourStepDto dto);
 
     @Mapping(target = "id", source = "id")
     PourStepDto stepToDto(PourStep steps);
