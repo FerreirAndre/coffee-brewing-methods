@@ -12,6 +12,6 @@ public interface CoffeeMethodService {
     List<CoffeeMethodDto> findAllByType(String type);
     CoffeeMethodDetailsDto findById(Long id);
     String create(CoffeeMethodSaveDto dto);
-    Long delete(Long id);
-    Long update(Long id, CoffeeMethodSaveDto dto);
+    void delete(Long id);
+    CoffeeMethodDetailsDto update(Long id, CoffeeMethodSaveDto dto);
 }

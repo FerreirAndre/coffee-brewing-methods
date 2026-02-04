@@ -54,16 +54,15 @@ public class CoffeeMethodServiceImpl implements CoffeeMethodService {
     }
 
     @Override
-    public Long delete(Long id) {
+    public void delete(Long id) {
         if (!repository.existsById(id)){
             throw new EntityNotFoundException("coffee method not found: " + id);
         }
         repository.deleteById(id);
-        return id;
     }
 
     @Override
-    public Long update(Long id, CoffeeMethodSaveDto dto) {
+    public CoffeeMethodDetailsDto update(Long id, CoffeeMethodSaveDto dto) {
         CoffeeMethod entity = repository.findById(id)
                 .orElseThrow(()->(new EntityNotFoundException("Method not Found.")));
 
@@ -78,6 +77,6 @@ public class CoffeeMethodServiceImpl implements CoffeeMethodService {
             entity.getSteps().addAll(newSteps);
         }
         CoffeeMethod updated = repository.save(entity);
-        return updated.getId();
+        return mapper.toDetailsDto(updated);
     }
 }
