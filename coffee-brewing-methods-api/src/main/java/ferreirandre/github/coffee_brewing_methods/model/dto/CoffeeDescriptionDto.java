@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CoffeeDescriptionDto {
     private Long id;
+    private Integer coffeeGrams;
     private GrindSize grindSize;
     private RoastLevel roastLevel;
 }

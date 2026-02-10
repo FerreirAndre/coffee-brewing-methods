@@ -1,4 +1,4 @@
-package ferreirandre.github.coffee_brewing_methods.Controller;
+package ferreirandre.github.coffee_brewing_methods.controller;
 
 import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodDetailsDto;
 import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodDto;
@@ -6,7 +6,6 @@ import ferreirandre.github.coffee_brewing_methods.model.dto.CoffeeMethodSaveDto;
 import ferreirandre.github.coffee_brewing_methods.service.CoffeeMethodService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

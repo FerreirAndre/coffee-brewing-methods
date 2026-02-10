@@ -2,10 +2,10 @@ TRUNCATE TABLE pour_step CASCADE;
 TRUNCATE TABLE coffee_method CASCADE;
 TRUNCATE TABLE coffee_description CASCADE;
 
-INSERT INTO coffee_description (id, grind_size, roast_level)
-VALUES (1, 'MEDIUM', 'MEDIUM'),
-       (2, 'MEDIUM_FINE', 'LIGHT'),
-       (3, 'COARSE', 'MEDIUM_DARK');
+INSERT INTO coffee_description (id, grind_size, roast_level, coffee_grams)
+VALUES (1,  'MEDIUM', 'MEDIUM',14),
+       (2, 'MEDIUM_FINE', 'LIGHT', 13),
+       (3, 'COARSE', 'MEDIUM_DARK', 14);
 
 INSERT INTO coffee_method (id, method_name, method_type, water_temperature, description, coffee_description_id)
 VALUES (1, 'V60', 'POUR_OVER', 93,

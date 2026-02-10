@@ -6,7 +6,8 @@ CREATE TABLE coffee_description
 (
     id          BIGSERIAL PRIMARY KEY,
     grind_size  VARCHAR(50) NOT NULL,
-    roast_level VARCHAR(50) NOT NULL
+    roast_level VARCHAR(50) NOT NULL,
+    coffee_grams INTEGER NOT NULL
 );
 
 CREATE TABLE coffee_method
