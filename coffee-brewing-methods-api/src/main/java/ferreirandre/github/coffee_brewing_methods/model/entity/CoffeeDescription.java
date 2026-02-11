@@ -19,7 +19,6 @@ public class CoffeeDescription {
     @Enumerated(EnumType.STRING)
     private GrindSize grindSize;
 
-    @Column(name = "coffee_grams")
     private Integer coffeeGrams;
 
     @Enumerated(EnumType.STRING)

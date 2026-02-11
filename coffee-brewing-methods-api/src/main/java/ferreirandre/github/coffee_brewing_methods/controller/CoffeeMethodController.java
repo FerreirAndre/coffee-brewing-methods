@@ -23,9 +23,9 @@ public class CoffeeMethodController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/types/{types}")
+    @GetMapping("/types/{type}")
     public ResponseEntity<List<CoffeeMethodDto>> findAllByType(@PathVariable String type) {
-        return ResponseEntity.ok(service.findAllByType(type));
+        return ResponseEntity.ok(service.findAllByType(type.toUpperCase()));
     }
 
     @GetMapping("/{id}")
