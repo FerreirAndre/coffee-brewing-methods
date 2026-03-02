@@ -9,7 +9,8 @@ import { CoffeeMethod, CoffeeMethodDetailsDto, CoffeeMethodSaveDto, CoffeeMethod
 })
 export class CoffeeMethodService {
   private apiUrl = `http://localhost:8080/coffee-methods`;
-  private http = inject(HttpClient);
+
+  constructor(private http: HttpClient) { }
 
   findAll(): Observable<CoffeeMethod[]> {
     return this.http.get<CoffeeMethod[]>(this.apiUrl);

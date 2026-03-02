@@ -1,0 +1,10 @@
+<main class="container">
+  <h2>Coffee Methods</h2>
+
+  @for (method of methods; track method.id) {
+    <h3>{{ method.name }}</h3>
+    <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
+    <p>Temperatura: {{ method.waterTemperature }} Celsius</p>
+    <p>Descricao: {{ method.description }}</p>
+  }
+</main>
