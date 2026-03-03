@@ -1,22 +1,39 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CoffeeMethod, CoffeeMethodType, CoffeeMethodTypeLabels, GrindSize, RoastLevel, RoastLevelLabels } from '../../models';
+import { Component, OnInit } from '@angular/core';
+import {
+  CoffeeMethod,
+  CoffeeMethodType,
+  CoffeeMethodTypeLabels,
+  GrindSize,
+  GrindSizeLabels,
+  RoastLevel,
+  RoastLevelLabels,
+} from '../../models';
 import { CoffeeMethodService } from '../../services/service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-coffee-method-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './coffee-method-list.html',
   styleUrl: './coffee-method-list.css',
 })
 export class CoffeeMethodList implements OnInit {
   methods: CoffeeMethod[] = [];
-
-  constructor(private service: CoffeeMethodService) { }
+  loading: boolean = true;
+  constructor(private service: CoffeeMethodService) {}
 
   ngOnInit() {
-    this.service.findAll().subscribe(data => {
-      this.methods = data;
-    })
+    this.service.findAll().subscribe(
+      (data) => {
+        this.methods = data;
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        this.loading = false;
+      },
+    );
   }
 
   getMethodTypeLabel(type: CoffeeMethodType): string {
@@ -24,7 +41,7 @@ export class CoffeeMethodList implements OnInit {
   }
 
   getGrindSize(size: GrindSize): string {
-    return GrindSize[size];
+    return GrindSizeLabels[size];
   }
 
   getRoastLevelLabel(level: RoastLevel): string {

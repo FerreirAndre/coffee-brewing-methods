@@ -1,16 +1,20 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { inject } from "@angular/core/primitives/di";
-import { Observable } from "rxjs";
-import { CoffeeMethod, CoffeeMethodDetailsDto, CoffeeMethodSaveDto, CoffeeMethodType } from "../models";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import {
+  CoffeeMethod,
+  CoffeeMethodDetailsDto,
+  CoffeeMethodSaveDto,
+  CoffeeMethodType,
+} from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CoffeeMethodService {
   private apiUrl = `http://localhost:8080/coffee-methods`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   findAll(): Observable<CoffeeMethod[]> {
     return this.http.get<CoffeeMethod[]>(this.apiUrl);
@@ -20,7 +24,7 @@ export class CoffeeMethodService {
     return this.http.get<CoffeeMethod[]>(`${this.apiUrl}/types/${type}`);
   }
 
-  findById(id: number): Observable<CoffeeMethodDetailsDto> {
+  findById(id: string | null): Observable<CoffeeMethodDetailsDto> {
     return this.http.get<CoffeeMethodDetailsDto>(`${this.apiUrl}/${id}`);
   }
 
@@ -28,8 +32,14 @@ export class CoffeeMethodService {
     return this.http.post<CoffeeMethod>(this.apiUrl, method);
   }
 
-  update(id: number, method: CoffeeMethodSaveDto): Observable<CoffeeMethodDetailsDto> {
-    return this.http.put<CoffeeMethodDetailsDto>(`${this.apiUrl}/${id}`, method);
+  update(
+    id: number,
+    method: CoffeeMethodSaveDto,
+  ): Observable<CoffeeMethodDetailsDto> {
+    return this.http.put<CoffeeMethodDetailsDto>(
+      `${this.apiUrl}/${id}`,
+      method,
+    );
   }
 
   delete(id: number): Observable<void> {

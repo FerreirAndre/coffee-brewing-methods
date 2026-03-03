@@ -1,0 +1,19 @@
+<main class="container">
+  <article style="border-radius: 10px">
+    @if (method) {
+      <h3 style="text-align: center">{{ method.name }}</h3>
+      <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
+      <p>Temperatura: {{ method.waterTemperature }}°C</p>
+      <p>Descrição: {{ method.description }}</p>
+      <p>Moagem: {{ getGrindSizeLabel(method.coffeeDescription.grindSize) }}</p>
+      <p>
+        Torra: {{ getRoastLevelLabel(method.coffeeDescription.roastLevel) }}
+      </p>
+      <p>Quantidade: {{ method.coffeeDescription.coffeeGrams }} gramas</p>
+      @for (step of method.steps; track method.steps) {
+        <h6>Passo {{ step.id }}</h6>
+        <p>{{ step.instructions }}</p>
+      }
+    }
+  </article>
+</main>

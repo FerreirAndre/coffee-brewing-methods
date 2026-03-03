@@ -1,10 +1,21 @@
 <main class="container">
-  <h2>Coffee Methods</h2>
-
-  @for (method of methods; track method.id) {
-    <h3>{{ method.name }}</h3>
-    <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
-    <p>Temperatura: {{ method.waterTemperature }} Celsius</p>
-    <p>Descricao: {{ method.description }}</p>
+  <h2 style="text-align: center">Coffee Methods</h2>
+  @if (loading) {
+    <h3>Carregando metodos...</h3>
+  } @else {
+    @for (method of methods; track method.id) {
+      <article>
+        <h3>
+          <a
+            routerLink="/coffee-methods/{{ method.id }}"
+            style="text-decoration: none"
+            >{{ method.name }}</a
+          >
+        </h3>
+        <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
+        <p>Temperatura: {{ method.waterTemperature }}°C</p>
+        <p>Descricao: {{ method.description }}</p>
+      </article>
+    }
   }
 </main>
