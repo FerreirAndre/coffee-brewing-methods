@@ -1,5 +1,6 @@
 <main class="container">
   <h2 style="text-align: center">Coffee Methods</h2>
+  <button routerLink="/coffee-methods/create">Criar</button>
   @if (loading) {
     <h3>Carregando metodos...</h3>
   } @else {
@@ -12,9 +13,12 @@
             >{{ method.name }}</a
           >
         </h3>
+        <button class="edit-button" (click)="edit(method.id)">Editar</button>
+        <button class="delete-button" (click)="delete(method.id)">DELETAR</button>
         <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
         <p>Temperatura: {{ method.waterTemperature }}°C</p>
         <p>Descricao: {{ method.description }}</p>
+
       </article>
     }
   }

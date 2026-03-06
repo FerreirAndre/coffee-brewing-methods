@@ -2,6 +2,8 @@
   <article style="border-radius: 10px">
     @if (method) {
       <h3 style="text-align: center">{{ method.name }}</h3>
+      <button class="secondary" (click)="edit(method.id)">Editar</button>
+      <button class="" (click)="delete(method.id)">DELETAR</button>
       <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
       <p>Temperatura: {{ method.waterTemperature }}°C</p>
       <p>Descrição: {{ method.description }}</p>
@@ -11,9 +13,10 @@
       </p>
       <p>Quantidade: {{ method.coffeeDescription.coffeeGrams }} gramas</p>
       @for (step of method.steps; track method.steps) {
-        <h6>Passo {{ step.id }}</h6>
+        <h6>Passo {{ $index + 1 }}:</h6>
         <p>{{ step.instructions }}</p>
       }
+      <button routerLink="/coffee-methods">Voltar</button>
     }
   </article>
 </main>

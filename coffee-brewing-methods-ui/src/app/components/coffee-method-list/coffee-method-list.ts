@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   CoffeeMethod,
   CoffeeMethodType,
@@ -9,7 +9,7 @@ import {
   RoastLevelLabels,
 } from '../../models';
 import { CoffeeMethodService } from '../../services/service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-coffee-method-list',
@@ -20,7 +20,8 @@ import { RouterLink } from '@angular/router';
 export class CoffeeMethodList implements OnInit {
   methods: CoffeeMethod[] = [];
   loading: boolean = true;
-  constructor(private service: CoffeeMethodService) {}
+  private service: CoffeeMethodService = inject(CoffeeMethodService);
+  private router: Router = inject(Router);
 
   ngOnInit() {
     this.service.findAll().subscribe(
@@ -34,6 +35,23 @@ export class CoffeeMethodList implements OnInit {
         this.loading = false;
       },
     );
+  }
+
+  edit(methodId: number) {
+    this.router.navigate(['coffee-methods/edit', methodId]);
+  }
+
+  delete(methodId: number) {
+    if (confirm("Quer deletar esse metodo?")) {
+      this.service.delete(methodId).subscribe({
+        next: () => {
+          this.methods = this.methods.filter((method) => method.id != methodId);
+        }, error: (err) => {
+          console.error(err);
+          alert('erro deletando este metodo.');
+        }
+      });
+    }
   }
 
   getMethodTypeLabel(type: CoffeeMethodType): string {

@@ -1,0 +1,224 @@
+<div class="container">
+  <h2>{{ isEditMode ? "Editar" : "Criar" }} Método de Café</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <h3>Informações Básicas</h3>
+
+      <div class="form-group">
+        <label for="name">Nome *</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+          [class.is-invalid]="
+            form.get('name')?.invalid && form.get('name')?.touched
+          "
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+        >
+          Nome é obrigatório (mínimo 3 caracteres)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Tipo *</label>
+        <select
+          id="type"
+          formControlName="type"
+          class="form-control"
+          [class.is-invalid]="
+            form.get('type')?.invalid && form.get('type')?.touched
+          "
+        >
+          <option value="">Selecione...</option>
+          <option *ngFor="let type of coffeeMethodTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+        <div
+          class="invalid-feedback"
+          *ngIf="form.get('type')?.invalid && form.get('type')?.touched"
+        >
+          Tipo é obrigatório
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="waterTemperature">Temperatura da Água (°C) *</label>
+        <input
+          type="number"
+          id="waterTemperature"
+          formControlName="waterTemperature"
+          class="form-control"
+          min="50"
+          max="100"
+          [class.is-invalid]="
+            form.get('waterTemperature')?.invalid &&
+            form.get('waterTemperature')?.touched
+          "
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            form.get('waterTemperature')?.invalid &&
+            form.get('waterTemperature')?.touched
+          "
+        >
+          Temperatura deve estar entre 50°C e 100°C
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descrição *</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-control"
+          rows="3"
+          [class.is-invalid]="
+            form.get('description')?.invalid && form.get('description')?.touched
+          "
+        ></textarea>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            form.get('description')?.invalid && form.get('description')?.touched
+          "
+        >
+          Descrição é obrigatória
+        </div>
+      </div>
+    </div>
+
+    <div class="section" formGroupName="coffeeDescription">
+      <h3>Descrição do Café</h3>
+
+      <div class="form-group">
+        <label for="grindSize">Moagem *</label>
+        <select
+          id="grindSize"
+          formControlName="grindSize"
+          class="form-control"
+          [class.is-invalid]="
+            coffeeDescription.get('grindSize')?.invalid &&
+            coffeeDescription.get('grindSize')?.touched
+          "
+        >
+          <option value="">Selecione...</option>
+          <option *ngFor="let size of grindSizes" [value]="size">
+            {{ size }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="roastLevel">Torra *</label>
+        <select
+          id="roastLevel"
+          formControlName="roastLevel"
+          class="form-control"
+          [class.is-invalid]="
+            coffeeDescription.get('roastLevel')?.invalid &&
+            coffeeDescription.get('roastLevel')?.touched
+          "
+        >
+          <option value="">Selecione...</option>
+          <option *ngFor="let level of roastLevels" [value]="level">
+            {{ level }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="coffeeGrams">Quantidade de Café (g) *</label>
+        <input
+          type="number"
+          id="coffeGrams"
+          formControlName="coffeeGrams"
+          class="form-control"
+          min="1"
+          max="100"
+        />
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Passos de Preparo</h3>
+        <button type="button" class="btn btn-success" (click)="addStep()">
+          + Adicionar Passo
+        </button>
+      </div>
+
+      <div formArrayName="steps">
+        <div
+          *ngFor="let step of steps.controls; let i = index"
+          [formGroupName]="i"
+          class="step-card"
+        >
+          <div class="step-header">
+            <h4>Passo {{ i + 1 }}</h4>
+            <div class="step-actions">
+              <button
+                type="button"
+                class="btn btn-sm btn-secondary"
+                (click)="moveStepUp(i)"
+                [disabled]="i === 0"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-secondary"
+                (click)="moveStepDown(i)"
+                [disabled]="i === steps.length - 1"
+              >
+                ↓
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-danger"
+                (click)="removeStep(i)"
+                [disabled]="steps.length === 1"
+              >
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Quantidade (g)</label>
+            <input
+              type="number"
+              formControlName="amountGrams"
+              class="form-control"
+              min="0"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Instruções *</label>
+            <textarea
+              formControlName="instructions"
+              class="form-control"
+              rows="2"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        {{ isEditMode ? "Atualizar" : "Criar" }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

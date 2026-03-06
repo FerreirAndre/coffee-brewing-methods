@@ -24,7 +24,7 @@ export class CoffeeMethodService {
     return this.http.get<CoffeeMethod[]>(`${this.apiUrl}/types/${type}`);
   }
 
-  findById(id: string | null): Observable<CoffeeMethodDetailsDto> {
+  findById(id: number): Observable<CoffeeMethodDetailsDto> {
     return this.http.get<CoffeeMethodDetailsDto>(`${this.apiUrl}/${id}`);
   }
 
