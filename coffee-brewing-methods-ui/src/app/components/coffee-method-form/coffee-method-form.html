@@ -1,224 +1,348 @@
-<div class="container">
-  <h2>{{ isEditMode ? "Editar" : "Criar" }} Método de Café</h2>
+<main class="container">
+  <header>
+    <hgroup>
+      <h2>{{ isEditMode ? "Editar" : "Criar" }} Método de Café</h2>
+      <p>
+        {{
+          isEditMode
+            ? "Atualize as informações do método"
+            : "Preencha os dados do novo método"
+        }}
+      </p>
+    </hgroup>
+  </header>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-      <h3>Informações Básicas</h3>
+  <form formGroup="form" (ngSubmit)="onSubmit()">
+    <article>
+      <header>
+        <h3>Informações Básicas</h3>
+      </header>
 
-      <div class="form-group">
-        <label for="name">Nome *</label>
+      <label for="name">
+        Nome *
         <input
           type="text"
           id="name"
+          name="name"
           formControlName="name"
-          class="form-control"
-          [class.is-invalid]="
+          placeholder="Ex: V60, Aeropress..."
+          [attr.aria-invalid]="
             form.get('name')?.invalid && form.get('name')?.touched
+              ? 'true'
+              : null
           "
         />
-        <div
-          class="invalid-feedback"
-          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
-        >
-          Nome é obrigatório (mínimo 3 caracteres)
-        </div>
+        @if (form.get("name")?.invalid && form.get("name")?.touched) {
+          <small style="color: var(--pico-error-color)">
+            Nome é obrigatório (mínimo 3 caracteres)
+          </small>
+        }
+      </label>
+
+      <div class="grid">
+        <label for="type">
+          Tipo *
+          <select
+            id="type"
+            name="type"
+            formControlName="type"
+            [attr.aria-invalid]="
+              form.get('type')?.invalid && form.get('type')?.touched
+                ? 'true'
+                : null
+            "
+          >
+            <option value="" selected disabled>Selecione o tipo...</option>
+            @for (type of coffeeMethodTypes; track type) {
+              <option [value]="type">
+                {{ getMethodTypeLabel(type) }}
+              </option>
+            }
+          </select>
+          @if (form.get("type")?.invalid && form.get("type")?.touched) {
+            <small> Tipo é obrigatório </small>
+          }
+        </label>
+
+        <label for="waterTemperature">
+          Temperatura da Água (°C) *
+          <input
+            type="number"
+            id="waterTemperature"
+            name="waterTemperature"
+            formControlName="waterTemperature"
+            min="50"
+            max="100"
+            placeholder="Ex: 93"
+            [attr.aria-invalid]="
+              form.get('waterTemperature')?.invalid &&
+              form.get('waterTemperature')?.touched
+                ? 'true'
+                : null
+            "
+          />
+
+          @if (
+            form.get("waterTemperature")?.invalid &&
+            form.get("waterTemperature")?.touched
+          ) {
+            <small> Temperatura deve estar entre 50°C e 100°C </small>
+          }
+        </label>
       </div>
 
-      <div class="form-group">
-        <label for="type">Tipo *</label>
-        <select
-          id="type"
-          formControlName="type"
-          class="form-control"
-          [class.is-invalid]="
-            form.get('type')?.invalid && form.get('type')?.touched
-          "
-        >
-          <option value="">Selecione...</option>
-          <option *ngFor="let type of coffeeMethodTypes" [value]="type">
-            {{ type }}
-          </option>
-        </select>
-        <div
-          class="invalid-feedback"
-          *ngIf="form.get('type')?.invalid && form.get('type')?.touched"
-        >
-          Tipo é obrigatório
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="waterTemperature">Temperatura da Água (°C) *</label>
-        <input
-          type="number"
-          id="waterTemperature"
-          formControlName="waterTemperature"
-          class="form-control"
-          min="50"
-          max="100"
-          [class.is-invalid]="
-            form.get('waterTemperature')?.invalid &&
-            form.get('waterTemperature')?.touched
-          "
-        />
-        <div
-          class="invalid-feedback"
-          *ngIf="
-            form.get('waterTemperature')?.invalid &&
-            form.get('waterTemperature')?.touched
-          "
-        >
-          Temperatura deve estar entre 50°C e 100°C
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Descrição *</label>
+      <label for="description">
+        Descrição *
         <textarea
           id="description"
+          name="description"
           formControlName="description"
-          class="form-control"
           rows="3"
-          [class.is-invalid]="
+          placeholder="Descreva as características deste método..."
+          [attr.aria-invalid]="
             form.get('description')?.invalid && form.get('description')?.touched
+              ? 'true'
+              : null
           "
         ></textarea>
-        <div
-          class="invalid-feedback"
-          *ngIf="
-            form.get('description')?.invalid && form.get('description')?.touched
-          "
-        >
-          Descrição é obrigatória
-        </div>
-      </div>
-    </div>
+        @if (
+          form.get("description")?.invalid && form.get("description")?.touched
+        ) {
+          <small> Descrição é obrigatória </small>
+        }
+      </label>
+    </article>
 
-    <div class="section" formGroupName="coffeeDescription">
-      <h3>Descrição do Café</h3>
+    <article formGroupName="coffeeDescription">
+      <header>
+        <h3>Descrição do Café</h3>
+      </header>
 
-      <div class="form-group">
-        <label for="grindSize">Moagem *</label>
-        <select
-          id="grindSize"
-          formControlName="grindSize"
-          class="form-control"
-          [class.is-invalid]="
-            coffeeDescription.get('grindSize')?.invalid &&
-            coffeeDescription.get('grindSize')?.touched
-          "
-        >
-          <option value="">Selecione...</option>
-          <option *ngFor="let size of grindSizes" [value]="size">
-            {{ size }}
-          </option>
-        </select>
-      </div>
+      <div class="grid">
+        <label for="grindSize">
+          Moagem *
+          <select
+            id="grindSize"
+            name="grindSize"
+            formControlName="grindSize"
+            [attr.aria-invalid]="
+              coffeeDescription.get('grindSize')?.invalid &&
+              coffeeDescription.get('grindSize')?.touched
+                ? 'true'
+                : null
+            "
+          >
+            <option value="" selected disabled>Selecione a moagem...</option>
+            @for (size of grindSizes; track size) {
+              <option [value]="size">
+                {{ getGrindSizeLabel(size) }}
+              </option>
+            }
+          </select>
+          @if (
+            coffeeDescription.get("grindSize")?.invalid &&
+            coffeeDescription.get("grindSize")?.touched
+          ) {
+            <small>Moagem é obrigatória </small>
+          }
+        </label>
 
-      <div class="form-group">
-        <label for="roastLevel">Torra *</label>
-        <select
-          id="roastLevel"
-          formControlName="roastLevel"
-          class="form-control"
-          [class.is-invalid]="
-            coffeeDescription.get('roastLevel')?.invalid &&
-            coffeeDescription.get('roastLevel')?.touched
-          "
-        >
-          <option value="">Selecione...</option>
-          <option *ngFor="let level of roastLevels" [value]="level">
-            {{ level }}
-          </option>
-        </select>
-      </div>
+        <label for="roastLevel">
+          Torra *
+          <select
+            id="roastLevel"
+            name="roastLevel"
+            formControlName="roastLevel"
+            [attr.aria-invalid]="
+              coffeeDescription.get('roastLevel')?.invalid &&
+              coffeeDescription.get('roastLevel')?.touched
+                ? 'true'
+                : null
+            "
+          >
+            <option value="" selected disabled>Selecione a torra...</option>
+            @for (level of roastLevels; track level) {
+              <option [value]="level">
+                {{ getRoastLevelLabel(level) }}
+              </option>
+            }
+          </select>
+          @if (
+            coffeeDescription.get("roastLevel")?.invalid &&
+            coffeeDescription.get("roastLevel")?.touched
+          ) {
+            <small> Torra é obrigatória </small>
+          }
+        </label>
 
-      <div class="form-group">
-        <label for="coffeeGrams">Quantidade de Café (g) *</label>
-        <input
-          type="number"
-          id="coffeGrams"
-          formControlName="coffeeGrams"
-          class="form-control"
-          min="1"
-          max="100"
-        />
+        <label for="coffeeGrams">
+          Quantidade de Café (g) *
+          <input
+            type="number"
+            id="coffeeGrams"
+            name="coffeeGrams"
+            formControlName="coffeeGrams"
+            min="1"
+            max="100"
+            placeholder="Ex: 15"
+            [attr.aria-invalid]="
+              coffeeDescription.get('coffeeGrams')?.invalid &&
+              coffeeDescription.get('coffeeGrams')?.touched
+                ? 'true'
+                : null
+            "
+          />
+          @if (
+            coffeeDescription.get("coffeeGrams")?.invalid &&
+            coffeeDescription.get("coffeeGrams")?.touched
+          ) {
+            <small> Quantidade deve estar entre 1g e 100g </small>
+          }
+        </label>
       </div>
-    </div>
+    </article>
 
-    <div class="section">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Passos de Preparo</h3>
-        <button type="button" class="btn btn-success" (click)="addStep()">
-          + Adicionar Passo
-        </button>
-      </div>
+    <article>
+      <header>
+        <nav>
+          <ul>
+            <li><h3>Passos de Preparo</h3></li>
+          </ul>
+          <ul>
+            <li>
+              <button
+                type="button"
+                class="secondary outline"
+                (click)="addStep()"
+              >
+                ➕ Adicionar Passo
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
       <div formArrayName="steps">
-        <div
-          *ngFor="let step of steps.controls; let i = index"
-          [formGroupName]="i"
-          class="step-card"
-        >
-          <div class="step-header">
-            <h4>Passo {{ i + 1 }}</h4>
-            <div class="step-actions">
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary"
-                (click)="moveStepUp(i)"
-                [disabled]="i === 0"
-              >
-                ↑
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary"
-                (click)="moveStepDown(i)"
-                [disabled]="i === steps.length - 1"
-              >
-                ↓
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-danger"
-                (click)="removeStep(i)"
-                [disabled]="steps.length === 1"
-              >
-                🗑️
-              </button>
+        @for (step of steps.controls; track $index; let i = $index) {
+          <article
+            formGroupName="i"
+            style="
+              background-color: var(--pico-card-background-color);
+              margin-bottom: 1rem;
+            "
+          >
+            <header>
+              <nav>
+                <ul>
+                  <li>
+                    <strong>Passo {{ i + 1 }}</strong>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <div role="group">
+                      <button
+                        type="button"
+                        class="secondary outline"
+                        (click)="moveStepUp(i)"
+                        [disabled]="i === 0"
+                        title="Mover para cima"
+                        style="padding: 0.25rem 0.75rem"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        class="secondary outline"
+                        (click)="moveStepDown(i)"
+                        [disabled]="i === steps.length - 1"
+                        title="Mover para baixo"
+                        style="padding: 0.25rem 0.75rem"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        class="contrast outline"
+                        (click)="removeStep(i)"
+                        [disabled]="steps.length === 1"
+                        title="Remover passo"
+                        style="padding: 0.25rem 0.75rem"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+            </header>
+
+            <div class="grid">
+              <label>
+                Quantidade de Água (g)
+                <input
+                  type="number"
+                  formControlName="amountGrams"
+                  min="0"
+                  placeholder="Ex: 50"
+                />
+                <small>Deixe 0 se não aplicar água neste passo</small>
+              </label>
+
+              <label>
+                Ordem
+                <input
+                  type="number"
+                  formControlName="orderNumber"
+                  [value]="i + 1"
+                  readonly
+                  disabled
+                />
+              </label>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Quantidade (g)</label>
-            <input
-              type="number"
-              formControlName="amountGrams"
-              class="form-control"
-              min="0"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Instruções *</label>
-            <textarea
-              formControlName="instructions"
-              class="form-control"
-              rows="2"
-            ></textarea>
-          </div>
-        </div>
+            <label>
+              Instruções *
+              <textarea
+                formControlName="instructions"
+                rows="2"
+                placeholder="Descreva o que fazer neste passo..."
+                [attr.aria-invalid]="
+                  step.get('instructions')?.invalid &&
+                  step.get('instructions')?.touched
+                    ? 'true'
+                    : null
+                "
+              ></textarea>
+              @if (
+                step.get("instructions")?.invalid &&
+                step.get("instructions")?.touched
+              ) {
+                <small> Instruções são obrigatórias </small>
+              }
+            </label>
+          </article>
+        }
       </div>
-    </div>
 
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-        {{ isEditMode ? "Atualizar" : "Criar" }}
-      </button>
-      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      @if (steps.length === 0) {
+        <p style="text-align: center; color: var(--pico-muted-color)">
+          Nenhum passo adicionado. Clique em "Adicionar Passo" para começar.
+        </p>
+      }
+    </article>
+
+    <div role="group">
+      <button type="button" class="secondary" (click)="onCancel()">
         Cancelar
+      </button>
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        [attr.aria-busy]="submitting ? 'true' : null"
+      >
+        {{ isEditMode ? "Atualizar" : "Criar" }}
       </button>
     </div>
   </form>
-</div>
+</main>

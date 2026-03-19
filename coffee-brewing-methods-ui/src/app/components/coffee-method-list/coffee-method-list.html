@@ -1,25 +1,54 @@
 <main class="container">
-  <h2 style="text-align: center">Coffee Methods</h2>
-  <button routerLink="/coffee-methods/create">Criar</button>
-  @if (loading) {
-    <h3>Carregando metodos...</h3>
-  } @else {
-    @for (method of methods; track method.id) {
-      <article>
-        <h3>
-          <a
-            routerLink="/coffee-methods/{{ method.id }}"
-            style="text-decoration: none"
-            >{{ method.name }}</a
-          >
-        </h3>
-        <button class="edit-button" (click)="edit(method.id)">Editar</button>
-        <button class="delete-button" (click)="delete(method.id)">DELETAR</button>
-        <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
-        <p>Temperatura: {{ method.waterTemperature }}°C</p>
-        <p>Descricao: {{ method.description }}</p>
+  <header>
+    <hgroup>
+      <h2>Coffee Methods</h2>
+      <p>Explore diferentes métodos de preparo de café</p>
+    </hgroup>
+  </header>
 
+  <div style="margin-bottom: 2rem">
+    <button routerLink="/coffee-methods/create">➕ Criar Novo Método</button>
+  </div>
+
+  @if (loading) {
+    <article aria-busy="true">
+      <h3>Carregando métodos...</h3>
+    </article>
+  } @else {
+    @if (methods.length === 0) {
+      <article>
+        <p>Nenhum método cadastrado ainda.</p>
       </article>
+    } @else {
+      @for (method of methods; track method.id) {
+        <article>
+          <header>
+            <h3>
+              <a
+                routerLink="/coffee-methods/{{ method.id }}"
+                style="text-decoration: none; color: inherit"
+              >
+                {{ method.name }}
+              </a>
+            </h3>
+          </header>
+
+          <p><strong>Tipo:</strong> {{ getMethodTypeLabel(method.type) }}</p>
+          <p><strong>Temperatura:</strong> {{ method.waterTemperature }}°C</p>
+          <p><strong>Descrição:</strong> {{ method.description }}</p>
+
+          <footer>
+            <div role="group">
+              <button class="secondary" (click)="edit(method.id)">
+                ✏️ Editar
+              </button>
+              <button class="contrast" (click)="delete(method.id)">
+                🗑️ Deletar
+              </button>
+            </div>
+          </footer>
+        </article>
+      }
     }
   }
 </main>
