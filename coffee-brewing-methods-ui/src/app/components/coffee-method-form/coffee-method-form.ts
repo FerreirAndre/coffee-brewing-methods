@@ -1,5 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   CoffeeMethodSaveDto,
@@ -15,6 +23,7 @@ import { CoffeeMethodService } from '../../services/service';
 @Component({
   selector: 'app-coffee-method-form',
   templateUrl: './coffee-method-form.html',
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class CoffeeMethodForm implements OnInit {
   form!: FormGroup;
@@ -34,13 +43,12 @@ export class CoffeeMethodForm implements OnInit {
   ngOnInit() {
     this.initForm();
 
-    this.route.params.subscribe((params) => {
-      if (params['id']) {
-        this.isEditMode = true;
-        this.methodId = +params['id'];
-        this.loadMethod(this.methodId);
-      }
-    });
+    this.methodId = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (this.methodId) {
+      this.isEditMode = true;
+      this.loadMethod(this.methodId);
+    }
   }
 
   initForm() {
@@ -64,8 +72,6 @@ export class CoffeeMethodForm implements OnInit {
 
       steps: this.fb.array([]),
     });
-
-    this.addStep();
   }
 
   get steps(): FormArray {
@@ -105,22 +111,15 @@ export class CoffeeMethodForm implements OnInit {
     });
   }
 
-  moveStepUp(index: number) {
-    if (index > 0) {
-      const step = this.steps.at(index);
-      this.steps.removeAt(index);
-      this.steps.insert(index - 1, step);
-      this.reorderSteps();
-    }
-  }
+  moveItem(fromIndex: number, toIndex: number) {
+    console.log(`Movendo item de ${fromIndex} para ${toIndex}`);
+    if (toIndex < 0 || toIndex >= this.steps.length) return;
 
-  moveStepDown(index: number) {
-    if (index < this.steps.length - 1) {
-      const step = this.steps.at(index);
-      this.steps.removeAt(index);
-      this.steps.insert(index + 1, step);
-      this.reorderSteps();
-    }
+    const control = this.steps.at(fromIndex);
+
+    this.steps.removeAt(fromIndex);
+    this.steps.insert(toIndex, control);
+    this.reorderSteps();
   }
 
   loadMethod(id: number) {
@@ -198,7 +197,6 @@ export class CoffeeMethodForm implements OnInit {
     this.router.navigate(['/coffee-methods']);
   }
 
-  // Helper methods para labels
   getMethodTypeLabel(type: CoffeeMethodType): string {
     return CoffeeMethodTypeLabels[type] || type;
   }

@@ -14,6 +14,9 @@
       <p>Quantidade: {{ method.coffeeDescription.coffeeGrams }} gramas</p>
       @for (step of method.steps; track method.steps) {
         <h6>Passo {{ $index + 1 }}:</h6>
+        @if (step.amountGrams > 0) {
+          <p>Quantidade de água: {{ step.amountGrams }} gramas</p>
+        }
         <p>{{ step.instructions }}</p>
       }
       <button routerLink="/coffee-methods">Voltar</button>

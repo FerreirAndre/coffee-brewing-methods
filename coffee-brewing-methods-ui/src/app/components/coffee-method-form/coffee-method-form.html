@@ -12,7 +12,7 @@
     </hgroup>
   </header>
 
-  <form formGroup="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <article>
       <header>
         <h3>Informações Básicas</h3>
@@ -225,7 +225,7 @@
       <div formArrayName="steps">
         @for (step of steps.controls; track $index; let i = $index) {
           <article
-            formGroupName="i"
+            [formGroupName]="i"
             style="
               background-color: var(--pico-card-background-color);
               margin-bottom: 1rem;
@@ -244,7 +244,7 @@
                       <button
                         type="button"
                         class="secondary outline"
-                        (click)="moveStepUp(i)"
+                        (click)="moveItem(i, i - 1)"
                         [disabled]="i === 0"
                         title="Mover para cima"
                         style="padding: 0.25rem 0.75rem"
@@ -254,7 +254,7 @@
                       <button
                         type="button"
                         class="secondary outline"
-                        (click)="moveStepDown(i)"
+                        (click)="moveItem(i, i + 1)"
                         [disabled]="i === steps.length - 1"
                         title="Mover para baixo"
                         style="padding: 0.25rem 0.75rem"
@@ -296,7 +296,6 @@
                   formControlName="orderNumber"
                   [value]="i + 1"
                   readonly
-                  disabled
                 />
               </label>
             </div>
