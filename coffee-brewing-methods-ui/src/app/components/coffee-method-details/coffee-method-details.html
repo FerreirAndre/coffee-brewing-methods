@@ -1,25 +1,108 @@
 <main class="container">
-  <article style="border-radius: 10px">
-    @if (method) {
-      <h3 style="text-align: center">{{ method.name }}</h3>
-      <button class="secondary" (click)="edit(method.id)">Editar</button>
-      <button class="" (click)="delete(method.id)">DELETAR</button>
-      <p>Tipo: {{ getMethodTypeLabel(method.type) }}</p>
-      <p>Temperatura: {{ method.waterTemperature }}°C</p>
-      <p>Descrição: {{ method.description }}</p>
-      <p>Moagem: {{ getGrindSizeLabel(method.coffeeDescription.grindSize) }}</p>
-      <p>
-        Torra: {{ getRoastLevelLabel(method.coffeeDescription.roastLevel) }}
-      </p>
-      <p>Quantidade: {{ method.coffeeDescription.coffeeGrams }} gramas</p>
-      @for (step of method.steps; track method.steps) {
-        <h6>Passo {{ $index + 1 }}:</h6>
-        @if (step.amountGrams > 0) {
-          <p>Quantidade de água: {{ step.amountGrams }} gramas</p>
-        }
-        <p>{{ step.instructions }}</p>
+  @if (loading()) {
+    <article aria-busy="true">
+      <h3>Carregando...</h3>
+    </article>
+  } @else if (method()) {
+    <article>
+      <header>
+        <nav>
+          <ul>
+            <li>
+              <hgroup>
+                <h2>{{ method()!.name }}</h2>
+                <br />
+                <p>
+                  <kbd>{{ getMethodTypeLabel(method()!.type) }}</kbd>
+                </p>
+              </hgroup>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <div role="group">
+                <button
+                  class="outline"
+                  (click)="edit(method()!.id)"
+                  title="Editar"
+                >
+                  ✏️
+                </button>
+                <button
+                  class="contrast outline"
+                  (click)="delete(method()!.id)"
+                  title="Deletar"
+                >
+                  🗑️
+                </button>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <p><strong>Descrição:</strong> {{ method()!.description }}</p>
+
+      <div class="grid">
+        <div>
+          <small>🌡️ Temperatura</small>
+          <p>
+            <strong>{{ method()!.waterTemperature }}°C</strong>
+          </p>
+        </div>
+        <div>
+          <small>☕ Café</small>
+          <p>
+            <strong>{{ method()!.coffeeDescription.coffeeGrams }}g</strong>
+          </p>
+        </div>
+        <div>
+          <small>Moagem</small>
+          <p>
+            <strong>{{
+              getGrindSizeLabel(method()!.coffeeDescription.grindSize)
+            }}</strong>
+          </p>
+        </div>
+        <div>
+          <small>Torra</small>
+          <p>
+            <strong>{{
+              getRoastLevelLabel(method()!.coffeeDescription.roastLevel)
+            }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <hr />
+
+      <h4>📝 Etapas</h4>
+      @for (step of method()!.steps; track step.id; let i = $index) {
+        <details open>
+          <summary>
+            <strong>Passo {{ i + 1 }}</strong>
+            @if (step.amountGrams > 0) {
+              <kbd style="margin-left: 0.5rem"
+                >Água: {{ step.amountGrams }}g</kbd
+              >
+            }
+          </summary>
+          <p>{{ step.instructions }}</p>
+        </details>
       }
-      <button routerLink="/coffee-methods">Voltar</button>
-    }
-  </article>
+
+      <footer style="margin-top: 2rem">
+        <small style="color: var(--pico-muted-color)">
+          Total: {{ method()!.steps.length }} etapas • {{ getTotalWater() }}g de
+          água • Proporção 1:{{ getCoffeeWaterRatio() }}
+        </small>
+      </footer>
+    </article>
+
+    <div style="text-align: center; margin-top: 1rem">
+      <button routerLink="/coffee-methods" class="secondary outline">
+        ← Voltar
+      </button>
+    </div>
+  }
 </main>
