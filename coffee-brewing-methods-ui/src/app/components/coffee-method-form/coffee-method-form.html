@@ -223,7 +223,7 @@
       </header>
 
       <div formArrayName="steps">
-        @for (step of steps.controls; track $index; let i = $index) {
+        @for (step of steps.controls; track step; let i = $index) {
           <article
             [formGroupName]="i"
             style="
