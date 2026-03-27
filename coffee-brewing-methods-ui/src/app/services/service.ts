@@ -28,8 +28,10 @@ export class CoffeeMethodService {
     return this.http.get<CoffeeMethodDetailsDto>(`${this.apiUrl}/${id}`);
   }
 
-  create(method: CoffeeMethodSaveDto): Observable<CoffeeMethod> {
-    return this.http.post<CoffeeMethod>(this.apiUrl, method);
+  create(method: CoffeeMethodSaveDto): Observable<string> {
+    return this.http.post<string>(this.apiUrl, method, {
+      responseType: 'text' as 'json',
+    });
   }
 
   update(
